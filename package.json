@@ -6,10 +6,11 @@
   "author": "Pierre M",
   "license": "MIT",
   "dependencies": {
-    "reveal.js": "^3.6.0",
-    "reveal.js-d3js": "^1.0.0",
-    "@bower_components/reveal.js-plugins": "rajgoel/reveal.js-plugins#*",
     "@bower_components/reveal.js-menu": "denehyg/reveal.js-menu#*",
-    "d3": "^4.12.0"
+    "@bower_components/reveal.js-plugins": "rajgoel/reveal.js-plugins#*",
+    "c3": "^0.4.18",
+    "d3": "^3.5.17",
+    "reveal.js": "^3.6.0",
+    "reveal.js-d3js": "^1.0.0"
   }
 }

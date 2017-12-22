@@ -10,6 +10,9 @@
 .left {
 	text-align: left;
 }
+.right {
+	text-align: right;
+}
 .lighter {
 	background: rgba(255, 255, 255, 0.2);
 }

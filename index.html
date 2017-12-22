@@ -41,13 +41,43 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
+				
+				<section>
+					
+					<p>
+						Today's winning 3 digit number is : 
+						<span class="random"><!-- { "min": 10, "max": 100 } --></span>,
+						<span class="random"></span>, 
+						<span class="random"></span>,
+						<span class="random"></span>.
+					</p>
+				</section>
+				
+				<section>		
+					<div class="barchart"><!-- {
+					    "data": {
+					        "columns": [
+					            ["data1", 30, 200, 100, 400, 150, 250],
+					            ["data2", 130, 100, 140, 200, 150, 50]
+					        ],
+					        "type": "bar"
+					    },
+					    "bar": {
+					        "width": {
+					            "ratio": 0.5
+					        }
+					    }
+					} --></div>
+				</section>
+				
 			</div><!-- .slides-->
 
 		</div><!-- .reveal-->
 
 		<script src="node_modules/reveal.js/lib/js/head.min.js"></script>
 		<script src="node_modules/reveal.js/js/reveal.js"></script>
-		<script src="node_modules/d3/build/d3.js"></script>
+		<script src="node_modules/d3/d3.js"></script>
+		<script src="node_modules/c3/c3.js"></script>
 
 		<script src="js/storyteller.js"></script>
 
@@ -61,6 +91,31 @@
 				center: true,
 
 				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				
+				storyteller: {
+					url: 'data/data.json'
+				},
+				
+				anything: [ 
+
+					{
+						className: "random", 
+						defaults: {min: 0, max: 9}, 
+						initialize: (function(container, options){ 
+							container.innerHTML = Math.trunc( options.min + Math.random()*(options.max-options.min + 1) ); 
+						})
+					},
+
+					{
+						className: "barchart", 
+						initialize: (function(container, options){
+							console.log('anything options', options, container)
+							options.bindto = container;
+							c3.generate(options);
+						})
+					}
+
+				],
 
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
@@ -72,8 +127,10 @@
 					{ src: 'node_modules/reveal.js/plugin/zoom-js/zoom.js', async: true },
 					{ src: 'node_modules/@bower_components/reveal.js-plugins/anything/anything.js' },
 					{ src: 'node_modules/@bower_components/reveal.js-menu/menu.js' },
-					{ src: 'node_modules/d3/build/d3.js' },
+					{ src: 'node_modules/d3/d3.js' },
 					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
+					{ src: 'node_modules/c3/c3.js' },
+//					{ src: 'js/storyteller-plugin.js' },
 					{ src: 'node_modules/reveal.js/plugin/notes/notes.js', async: true }
 				]
 			});
