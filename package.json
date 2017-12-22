@@ -1,0 +1,15 @@
+{
+  "name": "simpletellerjs",
+  "version": "1.0.0",
+  "description": "Reveal.js-based storyteller",
+  "main": "index.html",
+  "author": "Pierre M",
+  "license": "MIT",
+  "dependencies": {
+    "reveal.js": "^3.6.0",
+    "reveal.js-d3js": "^1.0.0",
+    "@bower_components/reveal.js-plugins": "rajgoel/reveal.js-plugins#*",
+    "@bower_components/reveal.js-menu": "denehyg/reveal.js-menu#*",
+    "d3": "^4.12.0"
+  }
+}

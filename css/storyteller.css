@@ -1,0 +1,18 @@
+.container{
+    display: flex;
+}
+.col{
+    flex: 1;
+}
+.reveal h1.red{
+	color: red;
+}
+.left {
+	text-align: left;
+}
+.lighter {
+	background: rgba(255, 255, 255, 0.2);
+}
+.darker {
+	background: rgba(0, 0, 0, 0.2);
+}
