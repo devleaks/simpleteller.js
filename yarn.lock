@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@bower_components/reveal.js-elapsed-time-bar@tkrkt/reveal.js-elapsed-time-bar#*":
+  version "0.0.0"
+  resolved "https://codeload.github.com/tkrkt/reveal.js-elapsed-time-bar/tar.gz/6352d42fac335e77bd059fc5d6122e47cfcc1f01"
+
 "@bower_components/reveal.js-menu@denehyg/reveal.js-menu#*":
   version "0.9.0"
   resolved "https://codeload.github.com/denehyg/reveal.js-menu/tar.gz/f827a0c479864723dba96c83b83ef0ce99dbfe9b"

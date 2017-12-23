@@ -82,9 +82,18 @@
 		var chart;
 		switch(options.type) {
 			case "bar":
-				var columns = data[1]
-				columns.unshift('Value')
-				columns = [ columns ]
+				var columns = []
+				var categories = []
+				data.forEach(function(line) {
+					categories.push(line[0])
+					for(var i = 1; i < data[0].length; i++) {
+						columns[i-1] = columns[i-1] || []
+						var n = columns[i-1]
+						if(n.length == 0) n.push("value "+i)
+						n.push(line[i])
+					}
+				})
+				//console.log("columns",columns)
 				chart = {
 				        data: {
 				          columns: columns,
@@ -93,7 +102,7 @@
 						axis: {
 						  x: {
 						   type: 'category',
-						   categories: data[0]
+						   categories: categories
 						  }
 						},
 				        bar: {
@@ -104,25 +113,17 @@
 				      }
 				break;
 			case "pie":
+			case "line":
+			case "step":
 				chart = {
 				        data: {
 				          columns: data,
 				          type: options.type
-				        },
-						axis: {
-						  x: {
-						   type: 'category',
-						   categories: data[0]
-						  }
-						},
-				        bar: {
-				          width: {
-				            ratio: 0.2,
-				          },
 				        }
 				      }
 				break;
 		}
+		console.log(options.type, chart)
 		container.html('<!-- '+JSON.stringify(chart)+' -->');
 	}
 	
@@ -145,6 +146,14 @@
 					}
 				} else {
 					switch(propname) {
+						case "video":
+							elem.attr('data-background-video', data[property])
+							console.log("video", data[property])
+							break;
+						case "transition":
+							elem.attr('data-transition', data[property])
+							console.log("transition", data[property])
+							break;
 						case "class":
 							elem.classed(data[property], true);
 							break;
@@ -179,10 +188,10 @@
 	function addSection(elem, data, add_content) {
 		var s = elem.append("section")
 		if(data.background) {
-			s.attr("data-background", "data/images/"+data.background)
+			s.attr("data-background", data.background)
 		}
 		if(data.class) {
-			s.attr("class", data.class)
+			s.classed(data.class, true)
 		}
 		if(add_content && data.content) {
 			addContent(s, data.content)
@@ -197,12 +206,16 @@
 		load: function(options) {
 			var filename = options.url;
 
-			//console.log("Storyteller.show",filename)
-			
+			//console.log("Storyteller.show",filename)			
 			d3.json(filename, function(error, newspaper) {	// There should only be one newspaper element at the root/top
+				var newspaper_elem = d3.select("div.slides")
+				
+				if(! newspaper_elem) {
+					console.log("storyteller::load", "div.slides element not found")
+					return
+				}
 
 				if(error || ! newspaper) {	// Add error page
-					var newspaper_elem = d3.select("div.slides")					
 					var error_elem = newspaper_elem.append("section")
 					error_elem.append("h3")
 						.text("There was a problem loading "+filename)
@@ -215,10 +228,7 @@
 							.html(error)
 					}
 					return
-				}
-				//console.log("newspaper", newspaper.name)
-				
-				var newspaper_elem = d3.select("div.slides")
+				}				
 				
 				// Add newspaper cover page
 				var newspapercover_elem = addSection(newspaper_elem, newspaper, true)				

@@ -1,18 +1,18 @@
+/* page structure */
 .container{
     display: flex;
 }
 .col{
     flex: 1;
 }
-.reveal h1.red{
-	color: red;
-}
+/* page text */
 .left {
 	text-align: left;
 }
 .right {
 	text-align: right;
 }
+/* generic classes */
 .lighter {
 	background: rgba(255, 255, 255, 0.2);
 }
@@ -24,4 +24,19 @@
 }
 .rowfooter {
 	color: orange;
+}
+/* c3 graphs */
+.c3-line {
+	fill-opacity: 0;
+	stroke-width: 4;
+}
+.c3-legend-item {
+	fill: #ffffff;
+}
+/* sample specific classes */
+.reveal h1.red{
+	color: red;
+}
+.title.black {
+	color: black;
 }

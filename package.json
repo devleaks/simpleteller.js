@@ -8,6 +8,7 @@
   "dependencies": {
     "@bower_components/reveal.js-menu": "denehyg/reveal.js-menu#*",
     "@bower_components/reveal.js-plugins": "rajgoel/reveal.js-plugins#*",
+    "@bower_components/reveal.js-elapsed-time-bar": "tkrkt/reveal.js-elapsed-time-bar#*",
     "c3": "^0.4.18",
     "d3": "^3.5.17",
     "reveal.js": "^3.6.0",
