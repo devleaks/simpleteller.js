@@ -44,6 +44,88 @@
 		"copyright": "small"
 	}
 	
+	/*	Generate <table> element and fill it with 
+	 *
+	 */
+	function generateTable(table, table_data) {
+		var options = table_data.options || {};
+		var data = table_data.data;
+		
+		for(var row = 0; row < data.length; row++) {
+			var rowcontainer = table
+			if(row == 0 && options.columnheader) {
+				rowcontainer = rowcontainer.append("thead")				
+			} else if ((row == (data.length - 1)) && options.columnfooter) {
+				rowcontainer = rowcontainer.append("tfoot")				
+			}
+			rowcontainer = rowcontainer.append("tr")
+			
+			for(var col = 0; col < data[row].length; col++) {
+				var colcontainer = rowcontainer.append('td');
+				if(col == 0 && options.rowheader) {
+					colcontainer.classed("rowheader", true)				
+				} else if ((col == (data[row].length - 1)) && options.rowfooter) {
+					colcontainer.classed("rowfooter", true)				
+				}
+				colcontainer.text(data[row][col]);
+			}			
+		}
+	}
+	
+	/* 
+	 *
+	 */
+	function generateChart(container, chart_data) {
+		var options = chart_data.options || {}
+		var data = chart_data.data
+
+		var chart;
+		switch(options.type) {
+			case "bar":
+				var columns = data[1]
+				columns.unshift('Value')
+				columns = [ columns ]
+				chart = {
+				        data: {
+				          columns: columns,
+				          type: options.type
+				        },
+						axis: {
+						  x: {
+						   type: 'category',
+						   categories: data[0]
+						  }
+						},
+				        bar: {
+				          width: {
+				            ratio: 0.2,
+				          },
+				        }
+				      }
+				break;
+			case "pie":
+				chart = {
+				        data: {
+				          columns: data,
+				          type: options.type
+				        },
+						axis: {
+						  x: {
+						   type: 'category',
+						   categories: data[0]
+						  }
+						},
+				        bar: {
+				          width: {
+				            ratio: 0.2,
+				          },
+				        }
+				      }
+				break;
+		}
+		container.html('<!-- '+JSON.stringify(chart)+' -->');
+	}
+	
 	/*	Append HTML formatted data content to supplied element
 	 *
 	 */
@@ -66,6 +148,22 @@
 						case "class":
 							elem.classed(data[property], true);
 							break;
+						case "table":
+							var container = elem.append("div")
+								.attr("class", "table")
+								.append("table")
+							generateTable(container, data[property]);
+							break;
+						case "chart":
+							var container = elem.append("div")
+								.attr("class", "chart")
+								
+							generateChart(container, data[property])
+							break;
+						/*
+						case "progressbar": (text, min, max, value, animated, show_value)
+						case "linecounter": (text, start, stop, time)
+						*/
 						default:
 							console.log("Storyteller.addContent", "no element for role " + propname)
 							break;

@@ -19,3 +19,9 @@
 .darker {
 	background: rgba(0, 0, 0, 0.2);
 }
+.rowheader {
+	color: darkgreen;
+}
+.rowfooter {
+	color: orange;
+}

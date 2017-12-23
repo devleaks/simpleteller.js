@@ -18,8 +18,12 @@ A fact is a background image, with content overlaid on it.
 Content is a collection of sniplets that display text or graphics.
 
 
-Simple Teller is a Reveal.js plugin.
-It needs other plugins like the Anything or d3 plugins to function properly.
+Simple Teller uses other plugins, like the Anything plugin, to display and animate your content.
+(Anything plugin is so simple that you can really stick anything in a slide' section!)
+
+I use c3 (based on d3) for graphs because it is simpler than d3, based on d3, and I use d3 for DOM manipulation and JSON loading.
+Of course, d3 opens doors for more customisation if you wish.
+
 
 Simple Teller just started, so expect documentation, tests, and complex examples in the following weeks.
 

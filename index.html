@@ -40,36 +40,7 @@
 		<div class="reveal">
 
 			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
-				
-				<section>
-					
-					<p>
-						Today's winning 3 digit number is : 
-						<span class="random"><!-- { "min": 10, "max": 100 } --></span>,
-						<span class="random"></span>, 
-						<span class="random"></span>,
-						<span class="random"></span>.
-					</p>
-				</section>
-				
-				<section>		
-					<div class="barchart"><!-- {
-					    "data": {
-					        "columns": [
-					            ["data1", 30, 200, 100, 400, 150, 250],
-					            ["data2", 130, 100, 140, 200, 150, 50]
-					        ],
-					        "type": "bar"
-					    },
-					    "bar": {
-					        "width": {
-					            "ratio": 0.5
-					        }
-					    }
-					} --></div>
-				</section>
-				
+			<div class="slides">				
 			</div><!-- .slides-->
 
 		</div><!-- .reveal-->
@@ -99,19 +70,13 @@
 				anything: [ 
 
 					{
-						className: "random", 
-						defaults: {min: 0, max: 9}, 
-						initialize: (function(container, options){ 
-							container.innerHTML = Math.trunc( options.min + Math.random()*(options.max-options.min + 1) ); 
-						})
-					},
-
-					{
-						className: "barchart", 
+						className: "chart", 
 						initialize: (function(container, options){
 							console.log('anything options', options, container)
-							options.bindto = container;
-							c3.generate(options);
+							if(options) {
+								options.bindto = container;
+								c3.generate(options);
+							}
 						})
 					}
 
