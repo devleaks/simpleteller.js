@@ -1,5 +1,5 @@
 /*!
- * simpleteller.js
+ * storyrevealer.js
  * MIT licensed
  *
  * Copyright (C) 2017 Pierre M
@@ -214,7 +214,7 @@
 				var newspaper_elem = d3.select("div.slides")
 				
 				if(! newspaper_elem) {
-					console.log("simpleteller::load", "div.slides element not found")
+					console.log("storyrevealer::load", "div.slides element not found")
 					return
 				}
 

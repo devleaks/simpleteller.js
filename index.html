@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>simpleteller.js – The Simple HTML Story Teller</title>
+		<title>storyrevealer.js – Reveal.js Based Story Teller</title>
 
 		<meta name="description" content="A framework for easily telling stories using photo, video, graphs, and text">
 		<meta name="author" content="Pierre M">
@@ -15,8 +15,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
-		<link rel="stylesheet" href="node_modules/reveal.js/css/theme/black.css" id="theme">
-		<link rel="stylesheet" href="css/simpleteller.css">
+		<link rel="stylesheet" href="css/theme/storyrevealer.css" id="theme">
+		<link rel="stylesheet" href="css/storyrevealer.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="node_modules/reveal.js/lib/css/zenburn.css">
@@ -51,7 +51,7 @@
 		<script src="node_modules/c3/c3.js"></script>
 		<script src="node_modules/mustache/mustache.js"></script>
 
-		<script src="js/simpleteller.js"></script>
+		<script src="js/storyrevealer.js"></script>
 
 		<script>
 
@@ -92,7 +92,7 @@
 				],
 
 				// Simpleteller options like URL to fetch stories from and themes
-				simpleteller: {
+				storyrevealer: {
 					url: 'data/data.json'
 				},
 				
@@ -110,7 +110,7 @@
 					{ src: 'node_modules/d3/d3.js' },
 					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
 					{ src: 'node_modules/c3/c3.js' },
-//					{ src: 'js/simpleteller-plugin.js' },
+//					{ src: 'js/storyrevealer-plugin.js' },
 					{ src: 'node_modules/reveal.js/plugin/notes/notes.js', async: true }
 				]
 			});

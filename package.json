@@ -1,7 +1,7 @@
 {
-  "name": "simpletellerjs",
+  "name": "storyrevealerjs",
   "version": "1.0.0",
-  "description": "Reveal.js-based simpleteller",
+  "description": "Reveal.js-based storyrevealer",
   "main": "index.html",
   "author": "Pierre M",
   "license": "MIT",
