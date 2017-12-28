@@ -1,5 +1,5 @@
 /*!
- * storyteller.js
+ * simpleteller.js
  * MIT licensed
  *
  * Copyright (C) 2017 Pierre M
@@ -8,26 +8,26 @@
 	if( typeof define === 'function' && define.amd ) {
 		// AMD. Register as an anonymous module.
 		define( function() {
-			root.Storyteller = factory();
-			return root.Storyteller;
+			root.Simpleteller = factory();
+			return root.Simpleteller;
 		} );
 	} else if( typeof exports === 'object' ) {
 		// Node. Does not work with strict CommonJS.
 		module.exports = factory();
 	} else {
 		// Browser globals.
-		root.Storyteller = factory();
+		root.Simpleteller = factory();
 	}
 }( this, function() {
 
 	'use strict';
 
-	var Storyteller;
+	var Simpleteller;
 
 	// The reveal.js version
 	var VERSION = '1.0.0';
 	
-	var ROLE_ELEMENT = {
+	var CONTENT_TYPE_ELEM = {
 		"above-title": "h2",
 		"below-title": "h4",
 		"byline": "h6",
@@ -44,7 +44,7 @@
 		"copyright": "small"
 	}
 	
-	/*	Generate <table> element and fill it with 
+	/*	Generate <table> element and fill it 
 	 *
 	 */
 	function generateTable(table, table_data) {
@@ -53,7 +53,7 @@
 		
 		for(var row = 0; row < data.length; row++) {
 			var rowcontainer = table
-			if(row == 0 && options.columnheader) {
+			if(row == 0 && options.columnheader) { //@todo: make columnheader is the count of column headers?
 				rowcontainer = rowcontainer.append("thead")				
 			} else if ((row == (data.length - 1)) && options.columnfooter) {
 				rowcontainer = rowcontainer.append("tfoot")				
@@ -72,7 +72,7 @@
 		}
 	}
 	
-	/* 
+	/* 	Generate chart object for each chart type
 	 *
 	 */
 	function generateChart(container, chart_data) {
@@ -131,50 +131,53 @@
 	 *
 	 */
 	function addContent(elem, data) {
-		for (var property in data) {
-		    if (data.hasOwnProperty(property)) {
-				var p = property.split(".");
-				var propname = p[0];
-				if(ROLE_ELEMENT[propname]) {
-					var container = elem.append(ROLE_ELEMENT[propname])
+		for (var content in data) {
+		    if (data.hasOwnProperty(content)) {
+				var p = content.split(".");
+				var content_type = p[0];
+				if(CONTENT_TYPE_ELEM[content_type]) {
+					var container = elem.append(CONTENT_TYPE_ELEM[content_type])
 						.attr("class", p.join(" "))
 
 					if(p.indexOf("html") > 0) {
-						container.html(data[property])
+						container.html(data[content])
 					} else {
-						container.text(data[property]) // container.html?
+						container.text(data[content]) // container.html?
 					}
 				} else {
-					switch(propname) {
+					switch(content_type) {
 						case "video":
-							elem.attr('data-background-video', data[property])
-							console.log("video", data[property])
+							elem.attr('data-background-video', data[content])
+							console.log("video", data[content])
 							break;
 						case "transition":
-							elem.attr('data-transition', data[property])
-							console.log("transition", data[property])
+							elem.attr('data-transition', data[content])
+							console.log("transition", data[content])
 							break;
 						case "class":
-							elem.classed(data[property], true);
+							elem.classed(data[content], true);
 							break;
 						case "table":
 							var container = elem.append("div")
 								.attr("class", "table")
 								.append("table")
-							generateTable(container, data[property]);
+							generateTable(container, data[content]);
 							break;
 						case "chart":
 							var container = elem.append("div")
 								.attr("class", "chart")
 								
-							generateChart(container, data[property])
+							generateChart(container, data[content])
+							break;
+						case "mustache":
+							elem.attr("class", "mustache").html('<!-- '+JSON.stringify(data[content])+' -->')	
 							break;
 						/*
 						case "progressbar": (text, min, max, value, animated, show_value)
 						case "linecounter": (text, start, stop, time)
 						*/
 						default:
-							console.log("Storyteller.addContent", "no element for role " + propname)
+							console.log("Simpleteller.addContent", "no element for role " + content_type, data)
 							break;
 					}
 				}
@@ -200,18 +203,18 @@
 	}
 	
 
-	Storyteller = {
+	Simpleteller = {
 		VERSION: VERSION,
 
-		load: function(options) {
+		generate: function(options) {
 			var filename = options.url;
 
-			//console.log("Storyteller.show",filename)			
+			//console.log("Simpleteller.show",filename)			
 			d3.json(filename, function(error, newspaper) {	// There should only be one newspaper element at the root/top
 				var newspaper_elem = d3.select("div.slides")
 				
 				if(! newspaper_elem) {
-					console.log("storyteller::load", "div.slides element not found")
+					console.log("simpleteller::load", "div.slides element not found")
 					return
 				}
 
@@ -264,12 +267,31 @@
 					})
 				})
 				
-			});	
+			});
+			
+			console.log("st-stats-item--value")
+			d3.selectAll(".st-statsbar--value").selectAll(function() {
+				var n = this.attr("value");
+				var _self = this;
+				var i = 0;
+				var timer = 1000/Math.abs(n);
+				//n = parseInt(n);
+
+				if (n >= 0) {
+					var inv = setInterval(function(){  if (i<=n) {_self.html(i++);} else {_self.html(n); clearInterval(inv);} }, timer);
+				}
+				if (n < 0) {
+					var inv = setInterval(function(){  if (i>=n) {_self.html(i--);} else {_self.html(n); clearInterval(inv);} }, timer);
+				}
+				console.log("st-stats-item--value", n)
+			})
+			
+			
 		}
 		
 	}
 
 
-	return Storyteller;
+	return Simpleteller;
 
 }));

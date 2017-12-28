@@ -1,6 +1,6 @@
 # Simple Teller .js
 
-Simple, json-based story teller engine.
+Simple, json-fed story teller engine.
 
 Inspired by the elegance and simplicity of [deltatre' SportTeller](http://www.deltatre.com/online-solutions/sportteller/)
 (with examples
@@ -14,8 +14,8 @@ SimpleTeller creates a single web page which contains stories.
 
 A story is a list of facts.
 
-A fact is a background image, with content overlaid on it.
-Content is a collection of sniplets that display text or graphics.
+A fact is a background image, animation, or video, with content laid over it.
+Content is a collection of information displayed as text, table, or graphics.
 
 
 Simple Teller uses other plugins, like the Anything plugin, to display and animate your content.

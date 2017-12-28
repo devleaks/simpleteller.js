@@ -1,7 +1,7 @@
 # Chart Types and Data Presentation
 
 While the package used ([c3](http://c3js.org/), [d3](https://d3js.org)) are capable of higly sophisticated graphic displays,
-Storyteller aims at, and purposely limits itself to, very simple, clear, straightforward, bold, graphs.
+Simpleteller aims at, and purposely limits itself to, very simple, clear, straightforward, bold, graphs.
 
 Most graphs are animated but not interfactive.
 

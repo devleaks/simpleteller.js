@@ -4,9 +4,9 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>storyteller.js – The HTML Story Teller</title>
+		<title>simpleteller.js – The Simple HTML Story Teller</title>
 
-		<meta name="description" content="A framework for easily showing beautiful stories using HTML">
+		<meta name="description" content="A framework for easily telling stories using photo, video, graphs, and text">
 		<meta name="author" content="Pierre M">
 
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,7 +16,7 @@
 
 		<link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
 		<link rel="stylesheet" href="node_modules/reveal.js/css/theme/black.css" id="theme">
-		<link rel="stylesheet" href="css/storyteller.css">
+		<link rel="stylesheet" href="css/simpleteller.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="node_modules/reveal.js/lib/css/zenburn.css">
@@ -49,8 +49,9 @@
 		<script src="node_modules/reveal.js/js/reveal.js"></script>
 		<script src="node_modules/d3/d3.js"></script>
 		<script src="node_modules/c3/c3.js"></script>
+		<script src="node_modules/mustache/mustache.js"></script>
 
-		<script src="js/storyteller.js"></script>
+		<script src="js/simpleteller.js"></script>
 
 		<script>
 
@@ -66,25 +67,35 @@
 				// your allotted time for newspaper reading (See https://github.com/tkrkt/reveal.js-elapsed-time-bar)
 				allottedTime: 3 * 60 * 1000, // 3 minutes
 				
-				storyteller: {
-					url: 'data/data.json'
-				},
-				
 				anything: [ 
 
 					{
 						className: "chart", 
 						initialize: (function(container, options){
-							console.log('anything options', options, container)
+							//console.log('anything options', options, container)
 							if(options) {
 								options.bindto = container;
 								c3.generate(options);
+							}
+						})
+					},
+					{
+						className: "mustache", 
+						initialize: (function(container, options){
+							//console.log('anything options', options, container)
+							if(options) {
+								container.innerHTML = Mustache.render(options.template, options.data)
 							}
 						})
 					}
 
 				],
 
+				// Simpleteller options like URL to fetch stories from and themes
+				simpleteller: {
+					url: 'data/data.json'
+				},
+				
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
 					{ src: 'node_modules/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
@@ -99,16 +110,15 @@
 					{ src: 'node_modules/d3/d3.js' },
 					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
 					{ src: 'node_modules/c3/c3.js' },
-//					{ src: 'js/storyteller-plugin.js' },
+//					{ src: 'js/simpleteller-plugin.js' },
 					{ src: 'node_modules/reveal.js/plugin/notes/notes.js', async: true }
 				]
 			});
 			
-			Storyteller.load({
+			Simpleteller.generate({
 				// Data URL
-				url: 'data/data.json'
+				url: 'data/bmw-day1/data.json'
 			})
-			
 
 		</script>
 

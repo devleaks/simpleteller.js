@@ -30,7 +30,11 @@
 	fill-opacity: 0;
 	stroke-width: 4;
 }
+.c3-axis,
 .c3-legend-item {
+	fill: #ffffff;
+}
+.c3-chart-arc text {
 	fill: #ffffff;
 }
 /* sample specific classes */
