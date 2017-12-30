@@ -47,9 +47,19 @@
 
 		<script src="node_modules/reveal.js/lib/js/head.min.js"></script>
 		<script src="node_modules/reveal.js/js/reveal.js"></script>
-		<script src="node_modules/d3/d3.js"></script>
+
+		<script src="node_modules/d3-collection/build/d3-collection.min.js"></script>
+		<script src="node_modules/d3-dispatch/build/d3-dispatch.min.js"></script>
+		<script src="node_modules/d3-dsv/build/d3-dsv.min.js"></script>
+		<script src="node_modules/d3-request/build/d3-request.min.js"></script>
+		<script src="node_modules/d3-selection/build/d3-selection.min.js"></script>
+
 		<script src="node_modules/sanitize-html/dist/sanitize-html.js"></script>
 		<script src="node_modules/mustache/mustache.js"></script>
+		<script src="node_modules/chart.js/dist/Chart.js"></script>
+		<script src="node_modules/color-scheme/lib/color-scheme.js"></script>
+		
+		
 
 		<script src="js/storyrevealer.js"></script>
 
@@ -71,13 +81,25 @@
 					{
 						className: "chart",  
 						initialize: (function(container, options){
+							function mergeRecursive(obj1, obj2) {
+							    for (var p in obj2) {
+							        try {
+							            // Property in destination object set; update its value.
+							            if (obj1[p].constructor == Object && obj2[p].constructor == Object) {
+							                obj1[p] = mergeRecursive(obj1[p], obj2[p]);
+							            } else {
+							                obj1[p] = obj2[p];
+							            }
+							        } catch (e) {
+							            // Property in destination object not set; create it and set its value.
+							            obj1[p] = obj2[p];
+							        }
+							    }
+							    return obj1;
+							}
+							console.log(options)
+							
 							if(options) {
-								Chart.scaleService.updateScaleDefaults('linear', {
-								    ticks: {
-								        min: 0
-								    }
-								});
-								console.log('yup')
 								container.chart = new Chart(container.getContext("2d"), options)
 							}
 						})
@@ -119,7 +141,7 @@
 					},
 					radar: {
 						borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]
-					}, 
+					}
 				},
 					
 				// Storyrevealer options like URL to fetch stories from and themes
@@ -129,17 +151,10 @@
 				
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
-					{ src: 'node_modules/chart.js/dist/Chart.js' },
 					{ src: 'node_modules/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: 'node_modules/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'node_modules/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'node_modules/reveal.js/plugin/search/search.js', async: true },
-					{ src: 'node_modules/reveal.js/plugin/zoom-js/zoom.js', async: true },
 					{ src: 'node_modules/@bower_components/reveal.js-plugins/anything/anything.js' },
-					{ src: 'node_modules/@bower_components/reveal.js-plugins/chart/csv2chart.js' },
 					{ src: 'node_modules/@bower_components/reveal.js-menu/menu.js' },
-					{ src: 'node_modules/@bower_components/reveal.js-elapsed-time-bar/plugin/elapsed-time-bar/elapsed-time-bar.js' },
+//					{ src: 'node_modules/@bower_components/reveal.js-elapsed-time-bar/plugin/elapsed-time-bar/elapsed-time-bar.js' },
 //					{ src: 'js/storyrevealer-plugin.js' },
 					{ src: 'node_modules/reveal.js/plugin/notes/notes.js', async: true }
 				]

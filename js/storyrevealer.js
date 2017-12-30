@@ -43,6 +43,32 @@
 		"under-title": "h4",
 		"copyright": "small"
 	}
+	var _inited = false
+	var colors = []
+	var transparency = ".8"
+	
+	/*
+	 *
+	 */
+	function init() {
+		if(_inited) return;
+		function hexToRgb(hex) {
+		    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+		    return result ? {
+		        r: parseInt(result[1], 16),
+		        g: parseInt(result[2], 16),
+		        b: parseInt(result[3], 16)
+		    } : null
+		}
+		var scheme = new ColorScheme;
+		scheme.from_hue(360 * Math.random())   
+			  .scheme('analogic')
+			  .variation('hard')
+		colors = scheme.colors()
+		colors = colors.map(function(hex){ var c = hexToRgb(hex); return "rgba("+c.r+","+c.g+","+c.b+","+transparency+")" })
+		console.log(colors)
+		_inited = true;
+	}
 	
 	/*
 	 *
@@ -88,6 +114,8 @@
 	 *
 	 */
 	function generateChart(container, chart_data) {
+		init();
+		var counter = 0
 		var data = chart_data.data
 
 		var chart = {}
@@ -110,14 +138,15 @@
 		chart.data.datasets = []
 		columns.forEach(function(column) {
 			chart.data.datasets.push({
-				data: column
+				data: column,
+				backgroundColor: colors[(counter++) % colors.length]
 			})
 		})
 		//console.log(chart_data, chart)
 
 		container
 			.append('canvas')
-			.attr('data-chart', chart.type)
+			.attr('class', 'chart')
 			.html('<!-- '+JSON.stringify(chart)+' -->');
 	}
 	
