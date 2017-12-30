@@ -48,7 +48,7 @@
 		<script src="node_modules/reveal.js/lib/js/head.min.js"></script>
 		<script src="node_modules/reveal.js/js/reveal.js"></script>
 		<script src="node_modules/d3/d3.js"></script>
-		<script src="node_modules/c3/c3.js"></script>
+		<script src="node_modules/sanitize-html/dist/sanitize-html.js"></script>
 		<script src="node_modules/mustache/mustache.js"></script>
 
 		<script src="js/storyrevealer.js"></script>
@@ -68,14 +68,17 @@
 				allottedTime: 3 * 60 * 1000, // 3 minutes
 				
 				anything: [ 
-
 					{
-						className: "chart", 
+						className: "chart",  
 						initialize: (function(container, options){
-							//console.log('anything options', options, container)
 							if(options) {
-								options.bindto = container;
-								c3.generate(options);
+								Chart.scaleService.updateScaleDefaults('linear', {
+								    ticks: {
+								        min: 0
+								    }
+								});
+								console.log('yup')
+								container.chart = new Chart(container.getContext("2d"), options)
 							}
 						})
 					},
@@ -105,10 +108,18 @@
 							ticks: { fontColor: "#fff" }, 
 						} 
 					},
-					line: { borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ], "borderDash": [ [5,10], [0,0] ]}, 
-					bar: { backgroundColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]}, 
-					pie: { backgroundColor: [ ["rgba(0,0,0,.8)" , "rgba(220,20,20,.8)", "rgba(20,220,20,.8)", "rgba(220,220,20,.8)", "rgba(20,20,220,.8)"] ]},
-					radar: { borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]}, 
+					line: {
+						borderColor: ["rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ],
+						borderDash: [ [5,10], [0,0] ]}, 
+					bar: {
+						backgroundColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]
+					}, 
+					pie: {
+						backgroundColor: [ ["rgba(0,0,0,.8)" , "rgba(220,20,20,.8)", "rgba(20,220,20,.8)", "rgba(220,220,20,.8)", "rgba(20,20,220,.8)"] ]
+					},
+					radar: {
+						borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]
+					}, 
 				},
 					
 				// Storyrevealer options like URL to fetch stories from and themes
@@ -129,9 +140,6 @@
 					{ src: 'node_modules/@bower_components/reveal.js-plugins/chart/csv2chart.js' },
 					{ src: 'node_modules/@bower_components/reveal.js-menu/menu.js' },
 					{ src: 'node_modules/@bower_components/reveal.js-elapsed-time-bar/plugin/elapsed-time-bar/elapsed-time-bar.js' },
-					{ src: 'node_modules/d3/d3.js' },
-					{ src: 'node_modules/reveal.js-d3js/d3js.js' },
-					{ src: 'node_modules/c3/c3.js' },
 //					{ src: 'js/storyrevealer-plugin.js' },
 					{ src: 'node_modules/reveal.js/plugin/notes/notes.js', async: true }
 				]

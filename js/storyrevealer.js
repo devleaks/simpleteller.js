@@ -44,6 +44,18 @@
 		"copyright": "small"
 	}
 	
+	/*
+	 *
+	 */
+	function cleanHTML(str) {
+		return sanitizeHtml(str, {
+		  allowedTags: [ 'b', 'i', 'em', 'strong', 'a' ],
+		  allowedAttributes: {
+		    'a': [ 'href' ]
+		  }
+		})
+	}
+	
 	/*	Generate <table> element and fill it 
 	 *
 	 */
@@ -76,55 +88,37 @@
 	 *
 	 */
 	function generateChart(container, chart_data) {
-		var options = chart_data.options || {}
 		var data = chart_data.data
 
-		var chart;
-		switch(options.type) {
-			case "bar":
-				var columns = []
-				var categories = []
-				data.forEach(function(line) {
-					categories.push(line[0])
-					for(var i = 1; i < data[0].length; i++) {
-						columns[i-1] = columns[i-1] || []
-						var n = columns[i-1]
-						if(n.length == 0) n.push("value "+i)
-						n.push(line[i])
-					}
-				})
-				//console.log("columns",columns)
-				chart = {
-				        data: {
-				          columns: columns,
-				          type: options.type
-				        },
-						axis: {
-						  x: {
-						   type: 'category',
-						   categories: categories
-						  }
-						},
-				        bar: {
-				          width: {
-				            ratio: 0.2,
-				          },
-				        }
-				      }
-				break;
-			case "pie":
-			case "line":
-			case "step":
-				chart = {
-				        data: {
-				          columns: data,
-				          type: options.type
-				        }
-				      }
-				break;
-		}
-		console.log(options.type, chart)
-		container.html('<!-- '+JSON.stringify(chart)+' -->');
+		var chart = {}
+		chart.type = chart_data.type
+		chart.options = chart_data.options
+		chart.data = {}
+
+		var columns = []
+		var categories = []
+		data.forEach(function(line) {
+			categories.push(line[0])
+			for(var i = 1; i < data[0].length; i++) {
+				columns[i-1] = columns[i-1] || []
+				columns[i-1].push(line[i])
+			}
+		})
+		//console.log(categories, columns)
+
+		chart.data.labels = categories
+		chart.data.datasets = []
+		columns.forEach(function(column) {
+			chart.data.datasets.push({
+				data: column
+			})
+		})
+		//console.log(chart_data, chart)
+
+		container
+			.append('canvas')
+			.attr('data-chart', chart.type)
+			.html('<!-- '+JSON.stringify(chart)+' -->');
 	}
 	
 	/*	Append HTML formatted data content to supplied element
@@ -132,27 +126,29 @@
 	 */
 	function addContent(elem, data) {
 		for (var content in data) {
-		    if (data.hasOwnProperty(content)) {
+		    if (data.hasOwnProperty(content)) { // content type is in format title.bold.reverse
 				var p = content.split(".");
 				var content_type = p[0];
 				if(CONTENT_TYPE_ELEM[content_type]) {
 					var container = elem.append(CONTENT_TYPE_ELEM[content_type])
 						.attr("class", p.join(" "))
 
-					if(p.indexOf("html") > 0) {
-						container.html(data[content])
+					if(p.indexOf("html") > 0) { // easy html injection possible here
+						container.html(cleanHTML(data[content]))
 					} else {
-						container.text(data[content]) // container.html?
+						container.text(data[content])
 					}
 				} else {
 					switch(content_type) {
+						case "notes":
+							elem.append("aside")
+								.html(cleanHTML(data[content]))
+							break;
 						case "video":
 							elem.attr('data-background-video', data[content])
-							console.log("video", data[content])
 							break;
 						case "transition":
 							elem.attr('data-transition', data[content])
-							console.log("transition", data[content])
 							break;
 						case "class":
 							elem.classed(data[content], true);
@@ -163,11 +159,8 @@
 								.append("table")
 							generateTable(container, data[content]);
 							break;
-						case "chart":
-							var container = elem.append("div")
-								.attr("class", "chart")
-								
-							generateChart(container, data[content])
+						case "chart":								
+							generateChart(elem, data[content])
 							break;
 						case "mustache":
 							elem.attr("class", "mustache").html('<!-- '+JSON.stringify(data[content])+' -->')	
@@ -228,7 +221,7 @@
 					if(error) {
 						error_elem.append("p")
 							.append("small")
-							.html(error)
+							.html(cleanHTML(error))
 					}
 					return
 				}				
@@ -267,26 +260,7 @@
 					})
 				})
 				
-			});
-			
-			console.log("st-stats-item--value")
-			d3.selectAll(".st-statsbar--value").selectAll(function() {
-				var n = this.attr("value");
-				var _self = this;
-				var i = 0;
-				var timer = 1000/Math.abs(n);
-				//n = parseInt(n);
-
-				if (n >= 0) {
-					var inv = setInterval(function(){  if (i<=n) {_self.html(i++);} else {_self.html(n); clearInterval(inv);} }, timer);
-				}
-				if (n < 0) {
-					var inv = setInterval(function(){  if (i>=n) {_self.html(i--);} else {_self.html(n); clearInterval(inv);} }, timer);
-				}
-				console.log("st-stats-item--value", n)
-			})
-			
-			
+			});			
 		}
 		
 	}
