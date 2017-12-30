@@ -4,7 +4,7 @@
  *
  * Copyright (C) 2017 Pierre M
  */
-var Simpleteller = window.Simpleteller || (function() {
+var Storyrevealer = window.Storyrevealer || (function() {
 	var config = Reveal.getConfig().storyrevealer || {};
 	if (!config.url) {
 		console.log("storyrevealer: no url");

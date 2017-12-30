@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>storyrevealer.js – Reveal.js Based Story Teller</title>
+		<title>storyrevealer.js – Reveal.js Story Teller</title>
 
 		<meta name="description" content="A framework for easily telling stories using photo, video, graphs, and text">
 		<meta name="author" content="Pierre M">
@@ -15,9 +15,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
-		<link rel="stylesheet" href="css/theme/storyrevealer.css" id="theme">
-		<link rel="stylesheet" href="css/storyrevealer.css">
-
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="node_modules/reveal.js/lib/css/zenburn.css">
 
@@ -29,6 +26,9 @@
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'node_modules/reveal.js/css/print/pdf.css' : 'node_modules/reveal.js/css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
+
+		<!-- Custom styling for "stories" -->
+		<link rel="stylesheet" href="css/theme/storyrevealer.css" id="theme">
 
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -82,7 +82,6 @@
 					{
 						className: "mustache", 
 						initialize: (function(container, options){
-							//console.log('anything options', options, container)
 							if(options) {
 								container.innerHTML = Mustache.render(options.template, options.data)
 							}
@@ -91,13 +90,35 @@
 
 				],
 
-				// Simpleteller options like URL to fetch stories from and themes
+				// A few chart.js default values
+				chart: {
+					defaults: { 
+						global: { 
+							title: { fontColor: "#fff" }, 
+							legend: {
+								labels: { fontColor: "#fff" },
+							},
+						},
+						scale: {
+							scaleLabel: { fontColor: "#fff" }, 
+							gridLines: { color: "#fff", zeroLineColor: "#fff" }, 
+							ticks: { fontColor: "#fff" }, 
+						} 
+					},
+					line: { borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ], "borderDash": [ [5,10], [0,0] ]}, 
+					bar: { backgroundColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]}, 
+					pie: { backgroundColor: [ ["rgba(0,0,0,.8)" , "rgba(220,20,20,.8)", "rgba(20,220,20,.8)", "rgba(220,220,20,.8)", "rgba(20,20,220,.8)"] ]},
+					radar: { borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]}, 
+				},
+					
+				// Storyrevealer options like URL to fetch stories from and themes
 				storyrevealer: {
 					url: 'data/data.json'
 				},
 				
 				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
+					{ src: 'node_modules/chart.js/dist/Chart.js' },
 					{ src: 'node_modules/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'node_modules/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'node_modules/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
@@ -105,6 +126,7 @@
 					{ src: 'node_modules/reveal.js/plugin/search/search.js', async: true },
 					{ src: 'node_modules/reveal.js/plugin/zoom-js/zoom.js', async: true },
 					{ src: 'node_modules/@bower_components/reveal.js-plugins/anything/anything.js' },
+					{ src: 'node_modules/@bower_components/reveal.js-plugins/chart/csv2chart.js' },
 					{ src: 'node_modules/@bower_components/reveal.js-menu/menu.js' },
 					{ src: 'node_modules/@bower_components/reveal.js-elapsed-time-bar/plugin/elapsed-time-bar/elapsed-time-bar.js' },
 					{ src: 'node_modules/d3/d3.js' },
@@ -115,9 +137,9 @@
 				]
 			});
 			
-			Simpleteller.generate({
+			Storyrevealer.generate({
 				// Data URL
-				url: 'data/bmw-day1/data.json'
+				url: 'data/yoga/data.json'
 			})
 
 		</script>

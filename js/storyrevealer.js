@@ -8,21 +8,21 @@
 	if( typeof define === 'function' && define.amd ) {
 		// AMD. Register as an anonymous module.
 		define( function() {
-			root.Simpleteller = factory();
-			return root.Simpleteller;
+			root.Storyrevealer = factory();
+			return root.Storyrevealer;
 		} );
 	} else if( typeof exports === 'object' ) {
 		// Node. Does not work with strict CommonJS.
 		module.exports = factory();
 	} else {
 		// Browser globals.
-		root.Simpleteller = factory();
+		root.Storyrevealer = factory();
 	}
 }( this, function() {
 
 	'use strict';
 
-	var Simpleteller;
+	var Storyrevealer;
 
 	// The reveal.js version
 	var VERSION = '1.0.0';
@@ -177,7 +177,7 @@
 						case "linecounter": (text, start, stop, time)
 						*/
 						default:
-							console.log("Simpleteller.addContent", "no element for role " + content_type, data)
+							console.log("Storyrevealer.addContent", "no element for role " + content_type, data)
 							break;
 					}
 				}
@@ -203,13 +203,13 @@
 	}
 	
 
-	Simpleteller = {
+	Storyrevealer = {
 		VERSION: VERSION,
 
 		generate: function(options) {
 			var filename = options.url;
 
-			//console.log("Simpleteller.show",filename)			
+			//console.log("Storyrevealer.show",filename)			
 			d3.json(filename, function(error, newspaper) {	// There should only be one newspaper element at the root/top
 				var newspaper_elem = d3.select("div.slides")
 				
@@ -245,8 +245,8 @@
 					// Add story cover page
 					var storycover_elem = addSection(story_elem, story, true)
 
-					// Add story facts
-					story.facts.forEach(function(fact) {	// For each fact in the story
+					// Add story pages
+					story.pages.forEach(function(fact) {	// For each fact in the story
 						var fact_elem = addSection(story_elem, fact, false)
 						
 						if(Array.isArray(fact.content)) {
@@ -292,6 +292,6 @@
 	}
 
 
-	return Simpleteller;
+	return Storyrevealer;
 
 }));

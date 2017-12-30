@@ -1,6 +1,6 @@
-# Simple Teller .js
+# Storyrevealer.js
 
-Simple, json-fed story teller engine.
+Simple, json-fed story teller engine based on [Reveal.js](http://revealjs.com).
 
 Inspired by the elegance and simplicity of [deltatre' SportTeller](http://www.deltatre.com/online-solutions/sportteller/)
 (with examples
@@ -10,22 +10,15 @@ and
 [here](http://www.europeantour.com/sportteller/bmw-pga-championship-day-1-in-numbers.html)
 ), I deciced to make a simpler, free, alternative.
 
-SimpleTeller creates a single web page which contains stories.
+Storyrevealer creates a single web page, called a newspaper, which contains stories.
+A story is a list of pages.
 
-A story is a list of facts.
-
-A fact is a background image, animation, or video, with content laid over it.
+A page is a background image, animation, or video, with content laid over it.
 Content is a collection of information displayed as text, table, or graphics.
 
+Storyrevealer uses Reveal.js plugins, like the Anything plugin, to display and animate your content.
+(Anything plugin is so generic that you can really stick anything in a slide' section)
 
-Simple Teller uses other plugins, like the Anything plugin, to display and animate your content.
-(Anything plugin is so simple that you can really stick anything in a slide' section!)
-
-I use c3 (based on d3) for graphs because it is simpler than d3, based on d3, and I use d3 for DOM manipulation and JSON loading.
-Of course, d3 opens doors for more customisation if you wish.
-
-
-Simple Teller just started, so expect documentation, tests, and complex examples in the following weeks.
-
+Storyrevealer just started, so expect documentation, tests, and complex examples in the following weeks.
 
 Pierre M. - December 2017

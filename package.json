@@ -10,6 +10,7 @@
     "@bower_components/reveal.js-menu": "denehyg/reveal.js-menu#*",
     "@bower_components/reveal.js-plugins": "rajgoel/reveal.js-plugins#*",
     "c3": "^0.4.18",
+    "chart.js": "^2.7.1",
     "d3": "^3.5.17",
     "mustache": "^2.3.0",
     "reveal.js": "^3.6.0",
